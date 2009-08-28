@@ -1,0 +1,7 @@
+Revision history for Perl extension IPC::Semaphore::Concurrency.
+
+0.01  Fri Aug 28 23:23:12 2009
+	- original version; created by h2xs 1.23 with options
+		-AX IPC::Semaphore::Concurrency
+	- Initial code
+
