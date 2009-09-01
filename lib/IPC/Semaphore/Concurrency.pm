@@ -15,7 +15,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 sub new {
 	my $class = shift;
@@ -145,10 +145,10 @@ sub acquire {
 		%args = @_;
 	}
 	# Defaults
-	$args{'sem'} =  0 if (!exists($args{'sem'}));
-	$args{'wait'} =  0 if (!exists($args{'wait'}));
-	$args{'max'} = -1 if (!exists($args{'max'}));
-	$args{'undo'} = 1 if (!exists($args{'undo'}));
+	$args{'sem'} =  0 if (!defined($args{'sem'}));
+	$args{'wait'} =  0 if (!defined($args{'wait'}));
+	$args{'max'} = -1 if (!defined($args{'max'}));
+	$args{'undo'} = 1 if (!defined($args{'undo'}));
 
 	my $sem = $self->{'_args'}->{'sem'};
 	my $flags = IPC_NOWAIT;
@@ -329,7 +329,7 @@ If true, block on semaphore acquisition.
 
 =item max
 
-If C<wait> is true, don't block if b<max> processes or more are waiting
+If C<wait> is true, don't block if C<max> processes or more are waiting
 for the semaphore. Defaults to -1 (unlimited).
 
 You may want to set it to some decent value if blocking on the semaphore
