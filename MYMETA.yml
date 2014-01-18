@@ -1,0 +1,28 @@
+---
+abstract: 'Concurrency guard using semaphores'
+author:
+  - 'Thomas Guyot-Sionnest <tguyot@gmail.com>'
+build_requires:
+  ExtUtils::MakeMaker: 0
+configure_requires:
+  ExtUtils::MakeMaker: 0
+distribution_type: module
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 6.57_05'
+license: unknown
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: IPC-Semaphore-Concurrency
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Carp: 0
+  Exporter: 0
+  IPC::Semaphore: 0
+  IPC::SysV: 0
+  POSIX: 0
+  Test::More: 0
+version: 0.03

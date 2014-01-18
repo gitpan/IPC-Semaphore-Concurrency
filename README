@@ -1,4 +1,4 @@
-IPC-Semaphore-Concurrency version 0.02
+IPC-Semaphore-Concurrency version 0.03
 ======================================
 
 This module allows you to limit concurrency of specific portions of your

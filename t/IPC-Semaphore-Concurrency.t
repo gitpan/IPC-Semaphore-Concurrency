@@ -5,23 +5,53 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
-use Test::More tests => 3;
-BEGIN { use_ok('IPC::Semaphore::Concurrency') };
+use Test::More;
+use POSIX qw(O_WRONLY O_CREAT O_NONBLOCK O_NOCTTY WNOHANG);
+use strict;
+use warnings;
 
 #########################
 
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
-system('rm -rf /tmp/.IPC::Semaphore::Concurrency.test*');
+# My handy Acme Child Reaper(tm)
+$SIG{'CHLD'} = sub { while (waitpid(-1, WNOHANG) > 0) {} };
+
+my $file = undef;
+my $base = ".IPC-Semaphore-Concurrency.test";
+
+# Try different paths for writing the semaphore files
+foreach my $prefix ('/tmp/', '/var/tmp/', '') {
+	my $tmpfile = $prefix.$base;
+	if (sysopen(my $f, "$tmpfile-0.$$", O_WRONLY|O_CREAT|O_NONBLOCK|O_NOCTTY)) {
+		$file = $tmpfile;
+		# $base now becomes what we'll use for cleaning up...
+		$base = $prefix;
+		last;
+	}
+}
+
+if (!defined($file)) {
+	plan skip_all => "Can't create a file for named semaphores: $!";
+} else {
+	plan tests => 5;
+}
+
+# Can't do that at compile time with a flexible plan, but we don't use prototypes anyway
+use_ok('IPC::Semaphore::Concurrency');
 
 # Simple semaphore usage
-my $c = IPC::Semaphore::Concurrency->new('/tmp/.IPC::Semaphore::Concurrency.test1.$$');
+my $c = IPC::Semaphore::Concurrency->new("$file-1.$$");
 ok(defined($c), "Simple usage");
+
+# Remove semaphore
+ok($c->remove(), "Remove semaphore");
+
 
 # Full semaphore usage
 $c = IPC::Semaphore::Concurrency->new(
-	path    => '/tmp/.IPC::Semaphore::Concurrency.test2.$$',
+	path    => "$file-2.$$",
 	touch   => 1,
 	project => 8,
 	count   => 20,
@@ -29,6 +59,10 @@ $c = IPC::Semaphore::Concurrency->new(
 	);
 ok(defined($c), "Full usage");
 
+# Remove semaphore
+ok($c->remove(), "Remove semaphore");
 
-system('rm -rf /tmp/.IPC::Semaphore::Concurrency.test*');
+
+# Clean up files
+system('rm -rf '.$base.'.IPC-Semaphore-Concurrency.test-*');
 
