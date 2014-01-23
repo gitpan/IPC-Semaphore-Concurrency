@@ -9,25 +9,29 @@ Releasing steps
      README
      lib/IPC/Semaphore/Concurrency.pm
 
-4. Run Makefile.PL
+4. Bump copyright year in:
+     README
+     lib/IPC/Semaphore/Concurrency.pm
 
-5. Commit changes
+5. Run Makefile.PL
 
-6. Make signed tag:
+6. Commit changes
+
+7. Make signed tag:
    $ IPCSC_VER=0.03
    $ git tag -su DE417216 -m "CPAN Release $IPCSC_VER" release-$IPCSC_VER
 
-7. Push master and tags to GitHub:
+8. Push master and tags to GitHub:
    $ git push origin
    $ git push --tags origin
 
-8. Export tree and remove .gitignore
+9. Export tree and remove .gitignore
    $ git checkout-index -a --prefix=../release/IPC-Semaphore-Concurrency-$IPCSC_VER/
    $ cd ../release/
    $ rm IPC-Semaphore-Concurrency-$IPCSC_VER/.gitignore
 
-9. Tar/gz the tree
+10. Tar/gz the tree
    $ tar --owner 0 --group 0 -czvf IPC-Semaphore-Concurrency-$IPCSC_VER.tar.gz IPC-Semaphore-Concurrency-$IPCSC_VER
 
-10. Upload to CPAN
+11. Upload to CPAN
 

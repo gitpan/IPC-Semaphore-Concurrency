@@ -15,6 +15,17 @@ use warnings;
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
+# Skip all if the testing architecture doesn't support semaphores
+# bits taken from IPC::SysV tests...
+use Config;
+if ($ENV{'PERL_CORE'} && $Config{'extensions'} !~ m[\bIPC/SysV\b]) {
+    plan(skip_all => 'IPC::SysV was not built');
+}
+if ($Config{'d_sem'} ne 'define' || $Config{'d_semget'} ne 'define' ||
+    $Config{'d_semctl'} ne 'define') {
+  plan(skip_all => 'Lacking d_sem, d_semget or d_semctl');
+}
+
 # My handy Acme Child Reaper(tm)
 $SIG{'CHLD'} = sub { while (waitpid(-1, WNOHANG) > 0) {} };
 

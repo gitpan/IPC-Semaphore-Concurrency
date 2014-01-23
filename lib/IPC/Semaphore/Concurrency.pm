@@ -15,7 +15,7 @@ our %EXPORT_TAGS = ( 'all' => [ qw() ] );
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub new {
 	my $class = shift;
@@ -227,11 +227,11 @@ differences being that is uses SysV Semaphores, and allow queuing up
 processes while others hold the semaphore. There are other difference which
 gives more flexibility in some cases.
 
-Generally, errors messages on failures can be retrieved with $!.
+Generally, errors messages on failures can be retrieved with C<$!>.
 
 =head2 EXPORTS
 
-None for now (could change before first Beta)
+None
 
 =head1 CONSTRUCTOR
 
@@ -411,7 +411,7 @@ Thomas Guyot-Sionnest <tguyot@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2009 Thomas Guyot-Sionnest <tguyot@gmail.com>
+Copyright (C) 2009-2014 Thomas Guyot-Sionnest <tguyot@gmail.com>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.8 or,
